@@ -117,6 +117,15 @@ p{
     color:black;
 }
 
+.tabs button.ativo{
+    background:#00ffff;
+    color:#000;
+    box-shadow:
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff;
+}
+
 section{
     margin-top:20px;
 }
@@ -212,7 +221,17 @@ function mostrar(id){
     });
 
     document.getElementById(id).style.display = 'block';
+
+    document.querySelectorAll('.tabs button').forEach(function(btn){
+        btn.classList.remove('ativo');
+    });
+
+    event.target.classList.add('ativo');
 }
+
+document.addEventListener('DOMContentLoaded', function(){
+    document.querySelector('.tabs button').classList.add('ativo');
+});
 </script>
 
 </body>
