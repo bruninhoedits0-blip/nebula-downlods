@@ -18,12 +18,18 @@
     font-family:Arial, sans-serif;
 }
 
+/* efeito suave */
 .pagina{
     display:none;
+    opacity:0;
+    transform:translateY(10px);
+    transition:0.3s ease;
 }
 
 .pagina.ativa{
     display:block;
+    opacity:1;
+    transform:translateY(0);
 }
 
 body{
@@ -131,6 +137,17 @@ section{
     margin-top:20px;
 }
 
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
 @media(max-width:600px){
     .container{
         padding:25px;
@@ -148,17 +165,6 @@ section{
 
     .tabs{
         flex-direction:column;
-    }
-}
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
     }
 }
 </style>
