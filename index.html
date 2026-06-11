@@ -6,6 +6,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nebula Mods Store</title>
 
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* 🔥 CONFIG FIREBASE (trocar pela sua) */
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_BUCKET",
+  messagingSenderId: "ID",
+  appId: "APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* 🔥 CARREGAR MODS DO FIRESTORE */
+async function carregarMods() {
+    const grid = document.getElementById("modsGrid");
+    grid.innerHTML = "";
+
+    const snapshot = await getDocs(collection(db, "mods"));
+
+    snapshot.forEach((doc) => {
+        const data = doc.data();
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>${data.nome}</h3>
+            <p>${data.descricao}</p>
+            <a href="${data.link}" target="_blank">⬇ Baixar</a>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+window.onload = carregarMods;
+</script>
+
 <style>
 *{
     margin:0;
@@ -14,6 +58,7 @@
     font-family:Arial, sans-serif;
 }
 
+/* FUNDO */
 body{
     background-image:url('Correto.png');
     background-size:cover;
@@ -27,12 +72,12 @@ body{
     align-items:center;
 }
 
-/* overlay */
+/* overlay escuro */
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.55);
+    background:rgba(0,0,0,0.6);
     z-index:0;
 }
 
@@ -67,7 +112,7 @@ body::before{
 .tabs button:hover{
     background:#00ffff;
     color:black;
-    box-shadow:0 0 10px #00ffff, 0 0 20px #00ffff;
+    box-shadow:0 0 15px #00ffff, 0 0 25px #00ffff;
     transform:scale(1.05);
 }
 
@@ -90,19 +135,31 @@ body::before{
     display:block;
 }
 
-/* CARDS */
+/* HERO */
+.hero{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    color:#00ffff;
+    font-size:32px;
+}
+
+/* GRID MODS */
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
     gap:15px;
 }
 
+/* CARD MOD */
 .card{
     background:#151c2b;
     padding:15px;
     border-radius:15px;
     text-align:center;
-    box-shadow:0 0 15px rgba(0,255,255,0.1);
+    box-shadow:0 0 15px rgba(0,255,255,0.15);
     transition:0.3s;
 }
 
@@ -113,7 +170,7 @@ body::before{
 
 .card h3{
     color:#00ffff;
-    margin:10px 0;
+    margin-bottom:10px;
 }
 
 .card p{
@@ -122,10 +179,11 @@ body::before{
     margin-bottom:10px;
 }
 
+/* BOTÃO DOWNLOAD NEON */
 .card a{
     display:inline-block;
     padding:10px 14px;
-    background:linear-gradient(90deg,#00ffff,#0088ff);
+    background:linear-gradient(90deg,#00ffff,#0077ff);
     color:black;
     border-radius:8px;
     text-decoration:none;
@@ -136,7 +194,7 @@ body::before{
 
 .card a:hover{
     transform:scale(1.05);
-    box-shadow:0 0 20px #00ffff;
+    box-shadow:0 0 25px #00ffff;
 }
 
 /* FEEDBACK */
@@ -166,15 +224,6 @@ body::before{
     font-weight:bold;
     box-shadow:0 0 10px #00ffff;
 }
-
-.hero{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-.hero h1{
-    color:#00ffff;
-}
 </style>
 
 </head>
@@ -183,6 +232,7 @@ body::before{
 
 <div class="container">
 
+    <!-- TABS -->
     <div class="tabs">
         <button onclick="mostrar(event,'inicio')">🏠 Início</button>
         <button onclick="mostrar(event,'mods')">🛒 Mods</button>
@@ -194,26 +244,14 @@ body::before{
     <section id="inicio" class="pagina ativa">
         <div class="hero">
             <h1>⚡ Nebula Mods Store ⚡</h1>
-            <p>Os melhores mods reunidos em um só lugar</p>
+            <p>Mods atualizados automaticamente pelo Firebase</p>
         </div>
     </section>
 
     <!-- MODS -->
     <section id="mods" class="pagina">
-        <div class="grid">
-
-            <div class="card">
-                <h3>Among Us Mod</h3>
-                <p>Unlock skins + extras</p>
-                <a href="https://www.mediafire.com/file/a5drvko5ofwkgbf/among-us-mod-Nebuloso.com.apk/file">Baixar</a>
-            </div>
-
-            <div class="card">
-                <h3>Starlight Pack</h3>
-                <p>Skins exclusivas</p>
-                <a href="https://play.google.com/store/search?q=starlight+among+us&c=apps">Baixar</a>
-            </div>
-
+        <div class="grid" id="modsGrid">
+            <!-- MODS DO FIREBASE APARECEM AQUI -->
         </div>
     </section>
 
@@ -228,7 +266,7 @@ body::before{
     <!-- FEEDBACK -->
     <section id="feedback" class="pagina">
         <div class="hero">
-            <h1>Deixe seu feedback 💬</h1>
+            <h1>Feedback 💬</h1>
         </div>
 
         <div class="feedback-box">
@@ -241,19 +279,14 @@ body::before{
 
 <script>
 function mostrar(event, id){
-    document.querySelectorAll('.pagina').forEach(p=>{
-        p.classList.remove('ativa');
-    });
-
-    document.querySelectorAll('.tabs button').forEach(b=>{
-        b.classList.remove('ativo');
-    });
+    document.querySelectorAll('.pagina').forEach(p=>p.classList.remove('ativa'));
+    document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('ativo'));
 
     document.getElementById(id).classList.add('ativa');
     event.currentTarget.classList.add('ativo');
 }
 
-/* FEEDBACK FUNCIONANDO */
+/* FEEDBACK DISCORD */
 function enviarFeedback(){
 
     const msg = document.getElementById("msg").value.trim();
@@ -263,27 +296,16 @@ function enviarFeedback(){
         return;
     }
 
-    fetch("https://discord.com/api/webhooks/1514650773303066704/UytEJ8u-3P1YtaZiJf0UTh5nN4nuSMWOeA8Kui5jHrhzNpF0foNXGHpptFWkLnaSt9l6", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            content: `💬 **Feedback Nebula Mods:**\n${msg}`
+    fetch("SEU_WEBHOOK_DISCORD_AQUI", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            content:"💬 Feedback Nebula:\n" + msg
         })
-    })
-    .then(res=>{
-        if(res.ok){
-            alert("Feedback enviado!");
-            document.getElementById("msg").value = "";
-        } else {
-            alert("Erro ao enviar feedback.");
-        }
-    })
-    .catch(err=>{
-        alert("Erro de conexão com Discord.");
-        console.log(err);
     });
+
+    alert("Enviado!");
+    document.getElementById("msg").value="";
 }
 </script>
 
