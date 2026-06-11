@@ -51,11 +51,31 @@ body{
     background:#1c2333;
     color:white;
     transition:0.3s;
+
+    /* brilho leve */
+    box-shadow:0 0 0px transparent;
 }
 
+/* HOVER NEON */
+.tabs button:hover{
+    background:#00ffff;
+    color:black;
+    box-shadow:0 0 10px #00ffff, 0 0 20px #00ffff;
+    transform:scale(1.05);
+}
+
+/* BOTÃO ATIVO COM NEON FORTE */
 .tabs button.ativo{
     background:#00ffff;
     color:black;
+
+    box-shadow:
+        0 0 10px #00ffff,
+        0 0 20px #00ffff,
+        0 0 40px #00ffff,
+        0 0 80px #00ffff;
+
+    transform:scale(1.05);
 }
 
 /* PAGINAS */
