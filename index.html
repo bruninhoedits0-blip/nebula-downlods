@@ -10,31 +10,29 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* 🔥 FIREBASE CONFIG */
+/* 🔥 SEU FIREBASE CONFIG (CORRIGIDO) */
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_BUCKET",
-  messagingSenderId: "ID",
-  appId: "APP_ID"
+  apiKey: "AIzaSyCQ_YWZZmYz9IassS6qVI-JKdvI9diHckE",
+  authDomain: "nebula-mods.firebaseapp.com",
+  projectId: "nebula-mods",
+  storageBucket: "nebula-mods.firebasestorage.app",
+  messagingSenderId: "793692349598",
+  appId: "1:793692349598:web:40767b48a9e1201312478f"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* 🔥 CARREGAR MODS */
+/* 🔥 CARREGAR MODS DO FIRESTORE */
 async function carregarMods() {
     const grid = document.getElementById("modsGrid");
 
-    console.log("🔥 Iniciando carregamento...");
-
-    grid.innerHTML = "<p>Carregando mods...</p>";
+    grid.innerHTML = "<p>🔥 Carregando mods...</p>";
 
     try {
         const snapshot = await getDocs(collection(db, "mods"));
 
-        console.log("📦 Mods encontrados:", snapshot.size);
+        console.log("Mods encontrados:", snapshot.size);
 
         grid.innerHTML = "";
 
@@ -45,8 +43,6 @@ async function carregarMods() {
 
         snapshot.forEach((doc) => {
             const data = doc.data();
-
-            console.log("📄 Mod:", data);
 
             const card = document.createElement("div");
             card.className = "card";
@@ -61,8 +57,8 @@ async function carregarMods() {
         });
 
     } catch (err) {
-        console.log("❌ ERRO FIREBASE:", err);
-        grid.innerHTML = "<p>Erro ao carregar mods ❌</p>";
+        console.log("Erro Firebase:", err);
+        grid.innerHTML = "<p>❌ Erro ao carregar mods</p>";
     }
 }
 
@@ -90,6 +86,7 @@ body{
     align-items:center;
 }
 
+/* overlay */
 body::before{
     content:"";
     position:fixed;
@@ -106,6 +103,7 @@ body::before{
     padding:20px;
 }
 
+/* TABS */
 .tabs{
     display:flex;
     justify-content:center;
@@ -136,15 +134,23 @@ body::before{
     box-shadow:0 0 25px #00ffff;
 }
 
-.pagina{ display:none; }
-.pagina.ativa{ display:block; }
+/* PÁGINAS */
+.pagina{
+    display:none;
+}
 
+.pagina.ativa{
+    display:block;
+}
+
+/* GRID */
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
     gap:15px;
 }
 
+/* CARD */
 .card{
     background:#151c2b;
     padding:15px;
@@ -153,17 +159,33 @@ body::before{
     box-shadow:0 0 15px rgba(0,255,255,0.15);
 }
 
-.card h3{ color:#00ffff; }
-.card p{ color:#ccc; font-size:13px; }
+.card h3{
+    color:#00ffff;
+}
+
+.card p{
+    color:#ccc;
+    font-size:13px;
+    margin:10px 0;
+}
 
 .card a{
     display:inline-block;
-    margin-top:10px;
     padding:10px;
     background:#00ffff;
     color:black;
     border-radius:8px;
     text-decoration:none;
+    font-weight:bold;
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    color:#00ffff;
 }
 </style>
 
@@ -173,18 +195,21 @@ body::before{
 
 <div class="container">
 
-<div class="tabs">
-    <button onclick="mostrar(event,'inicio')">🏠 Início</button>
-    <button onclick="mostrar(event,'mods')">🛒 Mods</button>
-</div>
+    <div class="tabs">
+        <button onclick="mostrar(event,'inicio')">🏠 Início</button>
+        <button onclick="mostrar(event,'mods')">🛒 Mods</button>
+    </div>
 
-<section id="inicio" class="pagina ativa">
-    <h1>⚡ Nebula Mods Store ⚡</h1>
-</section>
+    <section id="inicio" class="pagina ativa">
+        <div class="hero">
+            <h1>⚡ Nebula Mods Store ⚡</h1>
+            <p>Mods carregados automaticamente do Firebase</p>
+        </div>
+    </section>
 
-<section id="mods" class="pagina">
-    <div class="grid" id="modsGrid"></div>
-</section>
+    <section id="mods" class="pagina">
+        <div class="grid" id="modsGrid"></div>
+    </section>
 
 </div>
 
