@@ -109,6 +109,7 @@ body::before{
     max-width:500px;
     margin:auto;
 }
+
 .feedback-box textarea{
     height:120px;
     resize:none;
@@ -116,13 +117,14 @@ body::before{
     border-radius:10px;
     padding:10px;
 }
+
 .feedback-box button{
-    padding:10px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    background:#00ffff;
-    font-weight:bold;
+    transition:0.3s;
+}
+
+.feedback-box button:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px #00ffff;
 }
 .Banner{
     width:100%;
@@ -219,6 +221,37 @@ body::before{
             0 0 10px #00ffff,
             0 0 20px #00ffff,
             0 0 40px #00ffff;
+    }
+} 
+/* RESPONSIVO - TABS NO CELULAR */
+@media (max-width:600px){
+    .tabs{
+        flex-direction:column;
+        align-items:center;
+    }
+}
+
+/* RESPONSIVO GERAL - MELHOR NO CELULAR */
+@media (max-width:600px){
+    .container{
+        padding:10px;
+    }
+
+    .card img{
+        height:120px;
+    }
+
+    .hero h1{
+        font-size:20px;
+    }
+
+    .tabs button{
+        width:100%;
+        max-width:250px;
+    }
+
+    #pesquisa{
+        font-size:14px;
     }
 }    
 </style>
@@ -320,8 +353,19 @@ onkeyup="pesquisarMods()">
 </div>
 
 <div class="feedback-box">
-<textarea id="msg" placeholder="Escreva sua opinião..."></textarea>
-<button onclick="enviarFeedback()">Enviar</button>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdWSvXoNvq54T-FRJXKh6CPW0cGh6_uOvE6PTpZ2XXiEthSBw/viewform?usp=dialog" target="_blank" style="text-decoration:none;">
+        <button style="
+            padding:10px;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+            background:#00ffff;
+            font-weight:bold;
+            box-shadow:0 0 10px #00ffff;
+        ">
+            Abrir formulário de feedback
+        </button>
+    </a>
 </div>
 </section>
 
@@ -344,7 +388,7 @@ function pesquisarMods(){
 
 const texto =
 document.getElementById("pesquisa")
-.value.toLowerCase();
+.value.trim().toLowerCase();
 
 const cards =
 document.querySelectorAll("#mods .card");
@@ -358,7 +402,7 @@ card.querySelector("h3")
 .innerText
 .toLowerCase();
 
-if(nome.includes(texto)){
+ifif(texto === "" || nome.includes(texto)){
 card.style.display="block";
 encontrados++;
 }else{
@@ -376,28 +420,8 @@ semResultado.style.display = "block";
 semResultado.style.display = "none";
 }
 
-}    
-function enviarFeedback(){
-const msg=document.getElementById("msg").value.trim();
-if(!msg){alert("Escreva algo antes de enviar!");return;}
+}
 
-fetch("https://discord.com/api/webhooks/1514650773303066704/UytEJ8u-3P1YtaZiJf0UTh5nN4nuSMWOeA8Kui5jHrhzNpF0foNXGHpptFWkLnaSt9l6",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-content:`💬 **Feedback Nebula Mods:**\n${msg}`
-})
-})
-.then(res=>{
-if(res.ok){
-alert("Feedback enviado!");
-document.getElementById("msg").value="";
-}else{
-alert("Erro ao enviar feedback.");
-}
-})
-.catch(()=>alert("Erro de conexão com Discord."));
-}
 </script>
 
 </body>
