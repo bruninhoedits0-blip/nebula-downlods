@@ -168,6 +168,31 @@ body::before{
 .downloads{
     color:#00ffff !important;
     font-weight:bold;
+}
+.slogan{
+    font-size:18px;
+    color:#ffffff;
+    margin-top:10px;
+    text-shadow:
+        0 0 5px #00ffff,
+        0 0 10px #00ffff,
+        0 0 20px #00ffff;
+    animation: brilho 2s infinite alternate;
+}
+
+@keyframes brilho{
+    from{
+        opacity:0.8;
+        transform:scale(1);
+    }
+    to{
+        opacity:1;
+        transform:scale(1.03);
+        text-shadow:
+            0 0 10px #00ffff,
+            0 0 20px #00ffff,
+            0 0 40px #00ffff;
+    }
 }    
 </style>
 </head>
@@ -185,8 +210,7 @@ body::before{
 <section id="inicio" class="pagina ativa">
 <div class="hero">
 <img src="Banner.png" class="Banner" alt="Banner Portal Nebuloso">
-<h1>⚡Portal Nebuloso⚡</h1>
-<p>Os melhores mods reunidos em um só lugar</p>
+<p class="slogan">Os melhores mods reunidos em um só universo ✨</p>
 </div>
 </section>
 
