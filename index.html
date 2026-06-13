@@ -464,7 +464,9 @@ await signInWithPopup(auth, provider);
 
 }catch(error){
 
-alert("Erro ao fazer login");
+console.log(error);
+
+alert(error.code + "\n" + error.message);
 
 }
 
