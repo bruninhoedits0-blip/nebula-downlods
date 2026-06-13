@@ -122,41 +122,31 @@ body::before{
 <body>
 
 <!-- LOGIN -->
-<div id="loginScreen">
-  <div style="
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    gap:15px;
-    background:black;
-    color:white;
-    position:fixed;
-    width:100%;
-    z-index:9999;
-  ">
-    
-    <h2>🔐 Entrar no Portal Nebuloso</h2>
+<div id="loginScreen" style="
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+gap:15px;
+background:black;
+color:white;
+position:fixed;
+width:100%;
+z-index:9999;
+">
 
-    <button id="loginGoogle" onclick="window.loginGoogle()"
-    style="
-      padding:12px 20px;
-      border:none;
-      border-radius:10px;
-      background:#00ffff;
-      font-weight:bold;
-      cursor:pointer;
-    ">
-      🔵 Entrar com Google
-    </button>
+<h2>🔐 Entrar no Portal Nebuloso</h2>
 
-  </div>
-</div>
+<button id="loginGoogle" onclick="window.loginGoogle()"
+style="padding:12px 20px;border:none;border-radius:10px;background:#00ffff;font-weight:bold;cursor:pointer;">
+  🔵 Entrar com Google
+</button>
+
 </div>
 
 <!-- SITE -->
-<div class="container" id="site">
+<div class="container" id="site" style="display:none;">
 
 <div class="tabs">
 <button onclick="mostrar(event,'inicio')">🏠 Início</button>
@@ -284,12 +274,12 @@ window.loginGoogle = async function(){
 };
 
 onAuthStateChanged(auth, (user) => {
-  if(user){
-    document.getElementById("loginScreen").style.display="none";
-    document.getElementById("site").style.display="block";
+  if (user) {
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("site").style.display = "block";
   } else {
-    document.getElementById("loginScreen").style.display="flex";
-    document.getElementById("site").style.display="none";
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("site").style.display = "none";
   }
 });
 
