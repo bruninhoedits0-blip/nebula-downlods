@@ -241,11 +241,13 @@ body::before{
             0 0 20px #00ffff,
             0 0 40px #00ffff;
     }
+}
+
 #loginGoogle{
     position:relative;
     z-index:9999;
     pointer-events:auto;
-}    
+}
 </style>
 </head>
 <body>
@@ -253,7 +255,7 @@ body::before{
 
 <button
 id="loginGoogle"
-onclick="loginGoogle()"
+onclick="window.loginGoogle()"
 style="
 padding:12px 20px;
 border:none;
@@ -461,31 +463,28 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-alert("Firebase carregado!");
-window.loginGoogle = async function(){
+window.loginGoogle = async function() {
 
-alert("Botão clicado!");
+  try {
 
-try{
+    await signInWithPopup(auth, provider);
 
-await signInWithPopup(auth, provider);
+ catch (error) {
 
-}catch(error){
-
-console.log(error);
-
-alert(error.code + "\n" + error.message);
+  alert(error.code);
+  console.log(error);
 
 }
 
-}
-onAuthStateChanged(auth,(user)=>{
+};
 
-if(user){
+onAuthStateChanged(auth, (user) => {
 
-document.getElementById("loginGoogle").style.display="none";
+  if (user) {
 
-}
+    document.getElementById("loginGoogle").style.display = "none";
+
+  }
 
 });
 
