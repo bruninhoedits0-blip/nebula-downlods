@@ -457,7 +457,9 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 window.loginGoogle = async function(){
+
 alert("Botão clicado!");
+
 try{
 
 await signInWithPopup(auth, provider);
@@ -471,7 +473,6 @@ alert(error.code + "\n" + error.message);
 }
 
 }
-
 onAuthStateChanged(auth,(user)=>{
 
 if(user){
